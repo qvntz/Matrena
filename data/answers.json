@@ -23,16 +23,6 @@
     },
     {
       "type": "button",
-      "question": "Главное меню",
-      "message": "Выберите нужную категорию",
-      "buttons": [
-        "Категории",
-        "Запрос"
-      ],
-      "occupancy": false
-    },
-    {
-      "type": "button",
       "question": "Категории",
       "message": "Выберите нужную категорию",
       "buttons": [
@@ -151,6 +141,28 @@
         "todo"
       ],
       "occupancy": false
+    },
+    {
+      "type": "button",
+      "question": "Главное меню",
+      "message": "Выберите нужную категорию",
+      "buttons": [
+        "Категории",
+        "Запись на консультацию",
+        "Ближайший МФЦ",
+        "Запрос"
+      ]
+    },
+    {
+      "type": "text",
+      "question": "Запрос",
+      "answers": ["todo Запись"]
+    },
+    {
+      "type": "text",
+      "question": "Ближайший МФЦ",
+      "answers": ["todo Ближайший МФЦ"]
     }
+
   ]
 }

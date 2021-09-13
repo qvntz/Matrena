@@ -3,7 +3,7 @@ from typing import Optional
 # fix import
 import pandas as pd
 
-from similarityMatchingSkill import SimilarityMatchingSkill
+from Answerer.similarityMatchingSkill import SimilarityMatchingSkill
 
 faqCSVPath = 'data/learning_data.csv'
 completedFaq = 'data/data.csv'
