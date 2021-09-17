@@ -11,6 +11,7 @@ engine = create_engine('sqlite:///db.sqlite')
 session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Base.query = session.query_property()
 
+
 # Tables
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ class Times(Base):
     telephone = Column(String)
     mfc_id = Column(Integer, ForeignKey('mfcs.id'))
     mfcs = sqlalchemy.orm.relationship("MFC", backref='timeses')
+
 
 # Func
 # -----------------------------------------------------------------------------------------------------------------------
@@ -231,6 +233,7 @@ def add_MFC():
 
     session.add_all(listmfc)
     session.commit()
+
 
 # Полностью отлчистить базу данных
 def delete_DB():

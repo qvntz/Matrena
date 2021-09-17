@@ -15,18 +15,16 @@ class Element:
 
 
 class Button(Element):
-    _text = "Not implemented Button.__text"
-    __potentialChilds = []
-    __childrens = []
+    __text = "Not implemented Button.__text"
 
-    def __init__(self, text: str, childrens: Optional[List[Element]], potentialChilds: Optional[List[str]]):
-        self.__childrens = childrens
-        self._text = text
-        self.__potentialChilds = potentialChilds
+    def __init__(self, text: str, childrens: Optional[List[Element]] = None, potentialChilds: Optional[List[str]] = None):
+        self.__text = text
+        self.__childrens = [] if childrens is None else childrens
+        self.__potentialChilds = [] if potentialChilds is None else potentialChilds
 
     # Возвращает message
     def display(self) -> str:
-        return self._text
+        return self.__text
 
     def addChild(self, element: Element):
         self.__childrens.append(element)

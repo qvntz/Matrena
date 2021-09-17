@@ -4,9 +4,10 @@ from typing import Optional
 import pandas as pd
 
 from Answerer.similarityMatchingSkill import SimilarityMatchingSkill
+from definitions import LEARNING_DATA_FILE, COMPLETED_FAQ_FILE
 
-faqCSVPath = 'data/learning_data.csv'
-completedFaq = 'data/data.csv'
+faqCSVPath = LEARNING_DATA_FILE
+completedFaq = COMPLETED_FAQ_FILE
 
 
 class Answerer(object):
@@ -20,7 +21,8 @@ class Answerer(object):
             self.__rawFAQDf = pd.read_csv(faqCSVPath)
             # todo add 'загран' in model like 'заграничный'
             # todo предобучить на твиттере
-            self.__faq_skill = SimilarityMatchingSkill(data_path, x_col_name=x_col_name, y_col_name=y_col_name,
+            self.__faq_skill = SimilarityMatchingSkill(data_path, config_type=config_type, x_col_name=x_col_name,
+                                                       y_col_name=y_col_name,
                                                        train=train, save_load_path=save_load_path,
                                                        edit_dict=edit_dict)
         except Exception as e:
@@ -35,9 +37,9 @@ class Answerer(object):
                 .
             """
 
-    def giveAnswer(self, question: Optional[str] = None):
+    def giveAnswer(self, question: Optional[str] = None) -> pd.DataFrame:
         if question is None:
-            raise Exception("There's no question")
+            raise TypeError("There's no question")
         questions = [question]
         answers, score = self.__faq_skill(questions, [], [])
         df_filter = self.__rawFAQDf['Ответ'].isin(answers)

@@ -1,20 +1,23 @@
-from Architecture.parseJson import parsedJson
+from controls import Controls
 
 if __name__ == '__main__':
 
-    # Пример работы с прослойкой
-    parsedJson1 = parsedJson()
-    parsedJson1.parseJson()
-    # Словарь с кнопками
-    dict1 = parsedJson1.getButtonsDict()
-    button = dict1.get("Паспорт")
-    for i in button.getChildrens():
-        print(i.display())
-    # Меню в основе
+    control = Controls()
+
+    # Запрос пользователя
+    dict1 = control.answerForQuery('Замена паспорт')
+    # Словарь содержит кнопки с ответами, дети кнопок элементы таблицы со следующей иерархией:
+    # Вопрос -> Способ -> Документы, Порядок действий , Ссылка
+    for key in dict1:
+        print(key)
+        for method in dict1[key].getChildrens():
+            print(method.display())
+            for info in method.getChildrens():
+                print(info.display(), end=' ')
+                # тут весь текст
+                # print(info.getText())
+            print()
     print()
-    mainMenu = parsedJson1.getMainMenu()
-    for i in mainMenu.getChildrens():
-        print(i.display())
-    # answerer = Answerer()
-    # df = answerer.giveAnswer('Пособие')
-    # print(df)
+    # Получить главное меню словаря кнопок
+    for button in control.getMainMenu().getChildrens():
+        print(button.display())

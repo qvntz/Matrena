@@ -1,8 +1,11 @@
-from archive.finder_mfc import haversine
+from arсhive.finder_mfc import haversine
 from MakeDB import MFC, Times, session
 
 
 # Получить id по имени
+from exceptions.dataBaseException import DataBaseException
+
+
 def get_id(nameMFC: str) -> int:
     return session.query(MFC).filter(MFC.name == nameMFC).first().id
 
@@ -14,7 +17,7 @@ def get_cord(namen: str):
 
 
 # Получить массив всех доступных времен
-def get_free_times(nameMFC: str):
+def get_free_times(nameMFC: str) -> list:
     temp = session.query(Times).filter(
         Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id).filter(
         Times.username == 'N').all()
@@ -26,7 +29,7 @@ def get_free_times(nameMFC: str):
 
 
 # Получить все названия МФЦ
-def get_all_names():
+def getMFCsNames() -> list:
     temp = session.query(MFC).all()
     res = []
     for i in temp:
@@ -35,7 +38,7 @@ def get_all_names():
 
 
 # Получить название ближайего
-def get_neerest_mfc(x1: float, y1: float):
+def getNearestMfc(x1: float, y1: float):
     temp = session.query(MFC).all()
     res = []
     temp1 = []
@@ -81,7 +84,7 @@ def get_record_by_username(username: str):
         return temp.time, session.query(MFC).filter(MFC.id == temp.id).first().name
 
     except Exception as e:
-        print(e)
+        raise DataBaseException()
 
 
 '''Tests'''
@@ -89,8 +92,8 @@ def get_record_by_username(username: str):
 # print(get_cord('МФЦ Адмиралтейского района'))
 # print('get_id')
 # print(get_id('МФЦ Калининского района'))
-# print('get_all_names')
-# print(get_all_names())
+# print('getMFCsNames')
+# print(getMFCsNames())
 # print('get_free_times')
 # print(get_free_times('МФЦ Василеостровского района'))
 # print('Add new record to mfc')

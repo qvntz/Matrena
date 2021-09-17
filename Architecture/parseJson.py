@@ -2,10 +2,11 @@ import json
 from typing import Optional
 
 from Architecture.element import Answer, Button
+from definitions import JSON_BUTTONS_FILE
 
 
 class parsedJson:
-    def __init__(self, jsonPath: Optional[str] = 'data/answers.json'):
+    def __init__(self, jsonPath: Optional[str] = JSON_BUTTONS_FILE):
         self.__buttonsDict = {}
         self.__texts = {}
         self.jsonPath = jsonPath
@@ -60,6 +61,6 @@ class parsedJson:
     def getButtonsDict(self):
         return self.__buttonsDict
 
-    def getMainMenu(self):
+    def getMainMenu(self)-> Button:
         mainMenuInJson = "Главное меню"
         return self.getButtonsDict().get(mainMenuInJson)
