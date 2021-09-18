@@ -5,55 +5,61 @@ from typing import List, Optional
 class Element:
     __metaclass__ = ABCMeta
 
+    # Возвращает надпись на кнопке
     @abstractmethod
     def display(self):
-        return NotImplementedError()
+        raise NotImplementedError
 
+    # Возвращает наслдеников
     @abstractmethod
     def getChildrens(self):
-        return NotImplementedError()
+        raise NotImplementedError()
+
+    # Возваращет текст выводимый пользователю (большой в случае Answer и маленький в случае Button)
+    @abstractmethod
+    def getMessage(self):
+        raise NotImplementedError
 
 
 class Button(Element):
-    __text = "Not implemented Button.__text"
 
-    def __init__(self, text: str, childrens: Optional[List[Element]] = None, potentialChilds: Optional[List[str]] = None):
-        self.__text = text
+    def getMessage(self):
+        return self.__message
+
+    def display(self) -> str:
+        return self.__message
+
+    def getChildrens(self) -> List[Element]:
+        return self.__childrens
+
+    def __init__(self, text: str, childrens: Optional[List[Element]] = None,
+                 potentialChilds: Optional[List[str]] = None):
+        self.__message = text
         self.__childrens = [] if childrens is None else childrens
         self.__potentialChilds = [] if potentialChilds is None else potentialChilds
 
-    # Возвращает message
-    def display(self) -> str:
-        return self.__text
-
     def addChild(self, element: Element):
         self.__childrens.append(element)
-
-    # Возвращает всех наследников
-    def getChildrens(self) -> List[Element]:
-        return self.__childrens
 
     def getPotentialChilds(self):
         return self.__potentialChilds
 
 
 class Answer(Element):
-    __text = "Not implemented Answer.__text"
-    __question = "Not implemented Answer.__question"
-
-    def __init__(self, question: str, text: str):
-        self.__text = text
-        self.__question = question
-
-    # Возвращает question
-    def display(self) -> str:
+    def display(self):
         return self.__question
 
-    # Возвращает answers
-    def getText(self):
-        # Возможно этому место в getChildrens(self)
-        return self.__text
+    __message = "Not implemented Answer.__text"
+    __question = "Not implemented Answer.__question"
 
-    def getChildrens(self):
-        # todo
-        return None
+    def __init__(self, text: str, question: Optional[str] = ""):
+        self.__message = text
+        self.__question = question
+
+    # Возвращает answers
+    def getMessage(self):
+        # Возможно этому место в getChildrens(self)
+        return self.__message
+
+    def getChildrens(self) -> list:
+        return list()

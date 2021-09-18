@@ -3,7 +3,7 @@ from typing import Dict, Optional, Tuple
 from pandas import DataFrame
 
 from Architecture.element import Button, Answer
-from DB.FuctionsDB import getMFCsNames, getFreeTimes, setRecord, getRecordByName, getRecordByUsername
+from DB.FuctionsDB import getMFCsNames, getFreeTimes, setRecord, getRecordByName, getRecordByUsername, getNearestMfc
 from definitions import DF
 from exceptions.dataBaseException import DataBaseException
 
@@ -60,6 +60,7 @@ class RecordControl:
         timeNameTuple = getRecordByUsername(username)
         return timeNameTuple
 
-    def getNearestMFC(self):
-        # todo
-        pass
+    @staticmethod
+    def getNearestMFCButton(x: float, y: float) -> Button:
+        return Button(text=getNearestMfc(x, y))
+

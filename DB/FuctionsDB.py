@@ -40,7 +40,7 @@ def getMFCsNames() -> list:
 
 
 # Получить название ближайего
-def getNearestMfc(x1: float, y1: float):
+def getNearestMfc(x1: float, y1: float) -> str:
     temp = session.query(MFC).all()
     res = []
     temp1 = []

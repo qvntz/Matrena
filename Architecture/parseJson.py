@@ -1,5 +1,5 @@
 import json
-from typing import Optional
+from typing import Optional, Dict
 
 from Architecture.element import Answer, Button
 from definitions import JSON_BUTTONS_FILE
@@ -18,11 +18,7 @@ class parsedJson:
 
                 # create QA dict
                 if component["type"] == "text":
-                    answers = ""
-                    for answer in component["answers"]:
-                        answers += answer
-                        answers += '\n'
-                    newQA = Answer(question=component["question"], text=answers)
+                    newQA = Answer(question=component["question"], text=component["message"])
                     self.__texts[component["question"]] = newQA
 
                 # Create buttons dict
@@ -58,9 +54,9 @@ class parsedJson:
                 if child in self.__texts.keys():
                     button.addChild(self.__texts[child])
 
-    def getButtonsDict(self):
+    def getButtonsDict(self) -> Dict[str, Button]:
         return self.__buttonsDict
 
-    def getMainMenu(self)-> Button:
+    def getMainMenu(self) -> Button:
         mainMenuInJson = "Главное меню"
         return self.getButtonsDict().get(mainMenuInJson)
