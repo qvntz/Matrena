@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from arсhive.finder_mfc import haversine
 from DB.MakeDB import MFC, Times, session
 
@@ -68,7 +70,7 @@ def setRecord(time: str, nameMFC: str, username: str, name: str, surname: str, t
 
 
 # Получить данные о записи по имени и фамилии
-def getRecordByName(name: str, surname: str):
+def getRecordByName(name: str, surname: str) -> Tuple[str, str]:
     try:
         temp = session.query(Times).filter((Times.name == name), (Times.surname == surname)).first()
         return temp.time, session.query(MFC).filter(MFC.id == temp.id).first().name

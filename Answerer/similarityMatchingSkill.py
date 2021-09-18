@@ -41,6 +41,8 @@ class SimilarityMatchingSkill(Skill):
         if config_type not in configs.faq:
             raise ValueError("There is no config named '{0}'. Possible options are: {1}"
                              .format(config_type, ", ".join(configs.faq.keys())))
+        # В конфиге прописано  "save_path": "{MODELS_PATH}/vectorizer/tfidf_vectorizer_ruwiki.pkl",
+        # Хотим изменить на твиитер - нужно менять тут
         model_config = read_json(configs.faq[config_type])
 
         if x_col_name is not None:

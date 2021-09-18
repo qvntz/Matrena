@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 from pandas import DataFrame
 
@@ -39,7 +39,7 @@ class RecordControl:
         except DataBaseException as e:
             print("Can not make entry with username " + username)
 
-    def displayMFCs(self) -> Dict[str, Button]:
+    def getMFCsDict(self) -> Dict[str, Button]:
         MFCs = getMFCsNames()
         return self.__listToButtonsDict(MFCs)
 
@@ -50,15 +50,15 @@ class RecordControl:
             MFCButton.addChild(freeTime)
         return freeTimesButtons
 
-    def getInfoAboutRecordOptional(self, name: Optional[str] = None, username: Optional[str] = None):
-        if name is not None:
-            x = getRecordByName(name)
-            # todo prepare x
-            return x
-        if username is not None:
-            x = getRecordByUsername(username)
-            # todo prepare x
-            return x
+    @staticmethod
+    def getInfoAboutRecordByName(name: str, surname: str) -> Tuple[str, str]:
+        timeNameTuple = getRecordByName(name=name, surname=surname)
+        return timeNameTuple
+
+    @staticmethod
+    def getInfoAboutRecordByUsername(username: str) -> Tuple[str, str]:
+        timeNameTuple = getRecordByUsername(username)
+        return timeNameTuple
 
     def getNearestMFC(self):
         # todo
