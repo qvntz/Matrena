@@ -1,4 +1,5 @@
 from answererControl import AnswererControl
+from recordControl import RecordControl
 
 if __name__ == '__main__':
     control = AnswererControl()
@@ -28,19 +29,19 @@ if __name__ == '__main__':
     # Base.metadata.create_all(bind=engine)
     # add_MFC()
 
-    # recorder = RecordControl()
-    # # Format for time hh:mm
-    # countForGetOnlyFirstInDict = 0
-    # buttonTime1 = 0
-    # MFCButton1 = 0
-    # MFCs = recorder.getMFCsDict()
-    # for MFCName in MFCs:
-    #     MFCButton1 = MFCs.get(MFCName)
-    #     freeTimesDict = recorder.displayEntryOptionsByButton(MFCs.get(MFCName))
-    #     for timeButton in freeTimesDict.values():
-    #         buttonTime1 = timeButton
-    #         recorder.makeEntry(buttonTime=timeButton, MFCButton=MFCs.get(MFCName), name="Илья", surname="Шевчук",
-    #                            username="ilyaShevchuk77")
-    #         break
-    #     break
-    # print(recorder.getInfoAboutRecordByName("Илья", "Шевчук"))
+    recorder = RecordControl()
+    # Format for time hh:mm
+    countForGetOnlyFirstInDict = 0
+    buttonTime1 = 0
+    MFCButton1 = 0
+    MFCs = recorder.getMFCsDict()
+    for MFCName in MFCs:
+        MFCButton1 = MFCs.get(MFCName)
+        freeTimesDict = recorder.displayEntryOptionsByButton(MFCs.get(MFCName))
+        for timeButton in freeTimesDict.values():
+            buttonTime1 = timeButton
+            recorder.makeEntry(buttonTime=timeButton, MFCButton=MFCs.get(MFCName), name="Илья", surname="Шевчук",
+                               username="ilyaShevchuk77")
+            break
+        break
+    print(recorder.getInfoAboutRecordByName("Илья", "Шевчук"))
