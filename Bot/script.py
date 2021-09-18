@@ -1,7 +1,6 @@
 from Bot.bot import bot
 import utils
 import datetime
-from answererControl import AnswererControl
 from recordControl import RecordControl
 
 user_dict = {}
@@ -20,9 +19,11 @@ class Appointment:
 def appointment(message):
     msg = bot.reply_to(message, "Давай записываться, как тебя зовут?")
     bot.register_next_step_handler(msg, process_name_step)
+    # bot.register_next_step_handler(msg, lambda m: process_name_step(m, message.text))
 
 
-def process_name_step(message):
+def process_name_step(message, txt):
+    # print(txt)
     try:
         chat_id = message.chat.id
         name = message.text
