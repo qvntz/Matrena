@@ -1,11 +1,10 @@
-# from answererControl import AnswererControl
+from answererControl import AnswererControl
 from DB.MakeDB import add_MFC,delete_DB, Base , engine , post_MFC
 from DB.UpdateDB import put_new_timeses, delete_past_time
 from DB.FuctionsDB import *
 
 if __name__ == '__main__':
     delete_DB()
-    # control = AnswererControl()
     # Создание заглушки бд мфц
     Base.metadata.create_all(bind=engine)
     post_MFC()
@@ -21,30 +20,22 @@ if __name__ == '__main__':
     print(getRecordByName('Andrey ', 'Perevoshikov '))
     print('getRecordByUsername')
     print(getRecordByUsername('Andrey_Varan'))
-    # print('Add new record to mfc')
-    # setRecord('13.00', 'МФЦ Василеостровского района', 'Andrey_Varan', 'Andrey ', 'Perevoshikov ', '89098172313')
-    # print(getFreeTimes('МФЦ Василеостровского района'))
-    # print('getRecordByName')
-    # print(getRecordByName('Andrey ', 'Perevoshikov '))
-    # print('getRecordByUsername')
-    # print(getRecordByUsername('Andrey_Varan'))
-    # Удаление базы данных
-    # delete_DB()
 
+    control = AnswererControl()
     # Запрос пользователя
-    # dict1 = control.answerForQuery('Замена паспорт')
-    # # Словарь содержит кнопки с ответами, дети кнопок элементы таблицы со следующей иерархией:
-    # # Вопрос -> Способ -> Документы, Порядок действий , Ссылка
-    # for key in dict1:
-    #     print(key)
-    #     for method in dict1[key].getChildrens():
-    #         print(method.display())
-    #         for info in method.getChildrens():
-    #             print(info.display(), end=' ')
-    #             # тут весь текст
-    #             # print(info.getText())
-    #         print()
-    # print()
-    # # Получить главное меню словаря кнопок
-    # for button in control.getMainMenu().getChildrens():
-    #     print(button.display())
+    dict1 = control.answerForQuery('Замена паспорт')
+    # Словарь содержит кнопки с ответами, дети кнопок элементы таблицы со следующей иерархией:
+    # Вопрос -> Способ -> Документы, Порядок действий , Ссылка
+    for key in dict1:
+        print(key)
+        for method in dict1[key].getChildrens():
+            print(method.display())
+            for info in method.getChildrens():
+                print(info.display(), end=' ')
+                # тут весь текст
+                # print(info.getText())
+            print()
+    print()
+    # Получить главное меню словаря кнопок
+    for button in control.getMainMenu().getChildrens():
+        print(button.display())
