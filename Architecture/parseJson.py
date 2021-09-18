@@ -39,7 +39,7 @@ class parsedJson:
             #             self.elements[component["question"].lower()] = newMFCList
             #             # add button for MFCs
             #             for current_mfc in MFCs:
-            #                 available_times = get_free_times(current_mfc)
+            #                 available_times = getFreeTimes(current_mfc)
             #                 messageForUser = "Доступное время для записи в " + current_mfc
             #                 newButton = element("button", available_times, messageForUser)
             #                 self.elements[current_mfc.lower()] = newButton

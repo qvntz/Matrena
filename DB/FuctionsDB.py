@@ -1,23 +1,23 @@
 from arсhive.finder_mfc import haversine
-from MakeDB import MFC, Times, session
+from DB.MakeDB import MFC, Times, session
 
 
 # Получить id по имени
 from exceptions.dataBaseException import DataBaseException
 
 
-def get_id(nameMFC: str) -> int:
+def getID(nameMFC: str) -> int:
     return session.query(MFC).filter(MFC.name == nameMFC).first().id
 
 
 # Получить координаты по имени
-def get_cord(namen: str):
-    temp = session.query(MFC).filter(MFC.name == namen).first()
+def getCord(name: str):
+    temp = session.query(MFC).filter(MFC.name == name).first()
     return temp.x, temp.y
 
 
 # Получить массив всех доступных времен
-def get_free_times(nameMFC: str) -> list:
+def getFreeTimes(nameMFC: str) -> list:
     temp = session.query(Times).filter(
         Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id).filter(
         Times.username == 'N').all()
@@ -51,9 +51,9 @@ def getNearestMfc(x1: float, y1: float):
 
 
 # Записать человека по логину в телеграмме , имени , фамилии и номеру телефона
-def set_record(time: str, nameMFC: str, username: str, name: str, surname: str, telephone: str):
+def setRecord(time: str, nameMFC: str, username: str, name: str, surname: str, telephone: str):
     try:
-        if time in get_free_times(nameMFC):
+        if time in getFreeTimes(nameMFC):
             session.query(Times).filter((Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id),
                                         (Times.time == time)).update({'username': username,
                                                                       'name': name,
@@ -68,7 +68,7 @@ def set_record(time: str, nameMFC: str, username: str, name: str, surname: str, 
 
 
 # Получить данные о записи по имени и фамилии
-def get_record_by_name(name: str, surname: str):
+def getRecordByName(name: str, surname: str):
     try:
         temp = session.query(Times).filter((Times.name == name), (Times.surname == surname)).first()
         return temp.time, session.query(MFC).filter(MFC.id == temp.id).first().name
@@ -78,7 +78,7 @@ def get_record_by_name(name: str, surname: str):
 
 
 # Получить данные о записи по логину
-def get_record_by_username(username: str):
+def getRecordByUsername(username: str):
     try:
         temp = session.query(Times).filter(Times.username == username).first()
         return temp.time, session.query(MFC).filter(MFC.id == temp.id).first().name
@@ -88,18 +88,18 @@ def get_record_by_username(username: str):
 
 
 '''Tests'''
-# print('get_cord')
-# print(get_cord('МФЦ Адмиралтейского района'))
-# print('get_id')
-# print(get_id('МФЦ Калининского района'))
+# print('getCord')
+# print(getCord('МФЦ Адмиралтейского района'))
+# print('getID')
+# print(getID('МФЦ Калининского района'))
 # print('getMFCsNames')
 # print(getMFCsNames())
-# print('get_free_times')
-# print(get_free_times('МФЦ Василеостровского района'))
+# print('getFreeTimes')
+# print(getFreeTimes('МФЦ Василеостровского района'))
 # print('Add new record to mfc')
-# set_record('13.00', 'МФЦ Василеостровского района', 'Andrey_Varan', 'Andrey ', 'Perevoshikov ', '89098172313')
-# print(get_free_times('МФЦ Василеостровского района'))
-# print('get_record_by_name')
-# print(get_record_by_name('Andrey ', 'Perevoshikov '))
-# print('get_record_by_username')
-# print(get_record_by_username('Andrey_Varan'))
+# setRecord('13.00', 'МФЦ Василеостровского района', 'Andrey_Varan', 'Andrey ', 'Perevoshikov ', '89098172313')
+# print(getFreeTimes('МФЦ Василеостровского района'))
+# print('getRecordByName')
+# print(getRecordByName('Andrey ', 'Perevoshikov '))
+# print('getRecordByUsername')
+# print(getRecordByUsername('Andrey_Varan'))

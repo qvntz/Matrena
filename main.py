@@ -1,8 +1,8 @@
-from controls import Controls
+from answererControl import AnswererControl
 
 if __name__ == '__main__':
 
-    control = Controls()
+    control = AnswererControl()
 
     # Запрос пользователя
     dict1 = control.answerForQuery('Замена паспорт')
