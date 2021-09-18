@@ -1,5 +1,5 @@
 from typing import List
-
+import os
 import sqlalchemy.orm
 from sqlalchemy import Column, Integer, String, ForeignKey, Float , DateTime
 from sqlalchemy import create_engine
@@ -8,8 +8,9 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 from DB.Tools import get_list_times, get_date_now
 
+
 Base = declarative_base()
-engine = create_engine('sqlite:///db.sqlite')
+engine = create_engine('sqlite:///../db.sqlite')
 # engine = create_engine('postgresql://localhost:5432/MFC')
 
 session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
