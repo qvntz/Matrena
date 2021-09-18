@@ -1,8 +1,9 @@
+from DB.MakeDB import delete_DB, Base, engine, post_MFC
 from answererControl import AnswererControl
 from recordControl import RecordControl
 
 if __name__ == '__main__':
-    control = AnswererControl()
+    # control = AnswererControl()
 
     # Запрос пользователя
     # dict1 = control.answerForQuery('Замена паспорт')
@@ -26,21 +27,15 @@ if __name__ == '__main__':
     ### Тест записи
 
     # Создание заглушки бд мфц
+
     # Base.metadata.create_all(bind=engine)
     # post_MFC()
 
     recorder = RecordControl()
-    # Format for time hh:mm
-    MFCs = recorder.getMFCsDict()
-    for MFCName in MFCs:
-        MFCButton1 = MFCs.get(MFCName)
-        freeDatesDict = recorder.displayFreeDatesByButton(MFCs.get(MFCName))
-        for dateButton in freeDatesDict.values():
-            for timeButton in dateButton.getChildrens():
-                recorder.makeEntry(buttonTime=timeButton, dateButton=dateButton, MFCButton=MFCs.get(MFCName),
-                                   name="Илья", surname="Шевчук",
-                                   username="ilyaShevchuk77")
-                break
-            break
-        break
-    print(recorder.getInfoAboutRecordByName("Илья", "Шевчук"))
+    newDict = recorder.getMFCsDict()
+    MFCButton = newDict.get('МФЦ Адмиралтейского района')
+    recorder.initializeFreeDates(MFCButton)
+    for date in MFCButton.getChildrens():
+        print(date.display())
+        for time in date.getChildrens():
+            print(time.display())

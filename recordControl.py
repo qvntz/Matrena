@@ -44,24 +44,21 @@ class RecordControl:
         MFCs = getMFCsNames()
         return self.__listToButtonsDict(MFCs)
 
-    def displayFreeTimesByButton(self, MFCButton: Button, dateButton: Button) -> Dict[str, Button]:
+    def __getDictFreeTimesByButton(self, MFCButton: Button, dateButton: Button) -> Dict[str, Button]:
         freeTimesList = getFreeTimes(date=dateButton.display(), nameMFC=MFCButton.display())
         freeTimesButtons = self.__listToButtonsDict(freeTimesList)
         for freeTime in freeTimesButtons.values():
             dateButton.addChild(freeTime)
         return freeTimesButtons
 
-    def displayFreeDatesByButton(self, MFCButton: Button) -> Dict[str, Button]:
+    def initializeFreeDates(self, MFCButton: Button):
         freeDatesList = getDate(MFCButton.display())
         freeDatesButtons = self.__listToButtonsDict(freeDatesList)
         # add Dates to MFC button
         for freeDate in freeDatesButtons.values():
             MFCButton.addChild(freeDate)
             # add Times buttons to Date button
-            freeTimes = self.displayFreeTimesByButton(MFCButton=MFCButton, dateButton=freeDate)
-            for freeTimeButton in freeTimes.values():
-                freeDate.addChild(freeTimeButton)
-        return freeDatesButtons
+            freeTimes = self.__getDictFreeTimesByButton(MFCButton=MFCButton, dateButton=freeDate)
 
     @staticmethod
     def getInfoAboutRecordByName(name: str, surname: str) -> Tuple[str, str]:
