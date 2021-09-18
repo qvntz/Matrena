@@ -2,7 +2,7 @@ from typing import Dict, Optional, Tuple
 
 from pandas import DataFrame
 
-from Architecture.element import Button, Answer
+from Architecture.element import Button, Answer, Element
 from DB.FuctionsDB import *
 from definitions import DF
 from exceptions.dataBaseException import DataBaseException
@@ -30,7 +30,7 @@ class RecordControl:
         return buttonsDict
 
     @staticmethod
-    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Button, username: str, name: str,
+    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Element, username: str, name: str,
                   surname: str, phoneNumber: Optional[str] = None):
         phoneNumber = "-" if phoneNumber is None else phoneNumber
         try:

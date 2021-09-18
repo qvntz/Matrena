@@ -1,4 +1,3 @@
-from DB.MakeDB import Base, add_MFC, engine, post_MFC
 from answererControl import AnswererControl
 from recordControl import RecordControl
 
@@ -38,8 +37,9 @@ if __name__ == '__main__':
         freeDatesDict = recorder.displayFreeDatesByButton(MFCs.get(MFCName))
         for dateButton in freeDatesDict.values():
             for timeButton in dateButton.getChildrens():
-                recorder.makeEntry(buttonTime=timeButton, dateButton=dateButton, MFCButton=MFCs.get(MFCName), name="Илья", surname="Шевчук",
-                               username="ilyaShevchuk77")
+                recorder.makeEntry(buttonTime=timeButton, dateButton=dateButton, MFCButton=MFCs.get(MFCName),
+                                   name="Илья", surname="Шевчук",
+                                   username="ilyaShevchuk77")
                 break
             break
         break
