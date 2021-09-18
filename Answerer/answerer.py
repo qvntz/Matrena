@@ -4,15 +4,15 @@ from typing import Optional
 import pandas as pd
 from Answerer.similarityMatchingSkill import SimilarityMatchingSkill
 from definitions import LEARNING_DATA_FILE, COMPLETED_FAQ_FILE
-
 faqCSVPath = LEARNING_DATA_FILE
 completedFaq = COMPLETED_FAQ_FILE
 
 
 class Answerer(object):
 
+    # change Ответ и Вопрос везде!!!
     def __init__(self, data_path: Optional[str] = faqCSVPath, config_type: Optional[str] = 'tfidf_autofaq',
-                 x_col_name: Optional[str] = 'Вопрос', y_col_name: Optional[str] = 'Ответ',
+                 x_col_name: Optional[str] = 'Ответ', y_col_name: Optional[str] = 'Вопрос',
                  save_load_path: Optional[str] = './answer_skill',
                  edit_dict: Optional[dict] = None, train: Optional[bool] = False):
         try:
@@ -36,13 +36,14 @@ class Answerer(object):
                 .
             """
 
+    # -> pd.DataFrame
     def giveAnswer(self, question: Optional[str] = None) -> pd.DataFrame:
         if question is None:
             raise TypeError("There's no question")
         questions = [question]
         answers, score = self.__faq_skill(questions, [], [])
-        df_filter = self.__rawFAQDf['Ответ'].isin(answers)
-        answer = self.__completedAnswersDf[df_filter]
-        dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer['Вопрос'])
-        answers = self.__completedAnswersDf[dfFilterForGetAll]
-        return answers
+        answer = answers[0] + ' '
+        return self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer]
+        # dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer)
+        # answers = self.__completedAnswersDf[dfFilterForGetAll]
+        # return answers
