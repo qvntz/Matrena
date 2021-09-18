@@ -1,8 +1,12 @@
+from typing import List
+
 import sqlalchemy.orm
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Float , DateTime
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy import create_engine
+
+from DB.Tools import get_list_times, get_date_now
 
 Base = declarative_base()
 engine = create_engine('sqlite:///db.sqlite')
@@ -14,7 +18,6 @@ Base.query = session.query_property()
 
 # Tables
 # ----------------------------------------------------------------------------------------------------------------------
-
 class Orders(Base):
     __tablename__ = 'orders'
     id = Column(Integer, primary_key=True)
@@ -37,6 +40,7 @@ class Times(Base):
 
     id = Column(Integer, primary_key=True)
     time = Column(String, nullable=False)
+    date = Column(String, nullable=False)
     username = Column(String, default='N')
     name = Column(String)
     surname = Column(String)
@@ -47,18 +51,125 @@ class Times(Base):
 
 # Func
 # -----------------------------------------------------------------------------------------------------------------------
+def get_list_table_times(times: List[str], date: str):
+    result = []
+    for i in times:
+        result.append(Times(time=i,
+                            date=date))
+    return result
+
+def post_MFC():
+    listmfc = []
+    temp_date = get_date_now()
+    mfc = MFC(
+        name='МФЦ Адмиралтейского района',
+        x=59.92361013193151, y=30.284494930685902)
+
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(
+        name='МФЦ Василеостровского района',
+        x=59.943641751175015, y=30.22640714260935)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Выборгского района',
+              x=60.05497791451475, y=30.361088969600022)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Калининского района',
+              x=59.92361013193151, y=30.564494930685902)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+    mfc = MFC(name='МФЦ Кировского района',
+              x=59.83891662078884, y=30.270769929111836)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Колпинского района',
+              x=59.813639179596414, y=30.577323913767763)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(
+        name='МФЦ Красногвардейского района',
+        x=59.93892746842608, y=30.485850727266175)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(
+        name='МФЦ Красносельского района',
+        x=59.744836296851894, y=30.07703195609313)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(
+        name='МФЦ Кронштадтского района',
+        x=59.991916419905, y=29.755934540761377)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Курортного района',
+              x=60.19906778845881, y=29.70586894077081)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Московского района',
+              x=59.8583669546415, y=30.306453911919565)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+
+    mfc = MFC(name='МФЦ Невского района',
+              x=59.87630310236257, y=30.43263680822008)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(
+        name='МФЦ Петроградского района',
+        x=59.960399623978994, y=30.278036811924235)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+
+    mfc = MFC(
+        name='МФЦ Петродворцового района',
+        x=59.908466, y=29.775127)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Приморского района',
+              x=60.032074, y=30.294452)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Пушкинского района',
+              x=59.804165, y=30.377996)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+    mfc = MFC(name='МФЦ Фрунзенского района',
+              x=59.855236, y=30.367818)
+    mfc.timeses = get_list_table_times(get_list_times(12), temp_date)
+
+    listmfc.append(mfc)
+
+    session.add_all(listmfc)
+    session.commit()
+
 
 def add_MFC():
     listmfc = []
     mfc = MFC(
         name='МФЦ Адмиралтейского района',
         x=59.92361013193151, y=30.284494930685902)
+
     mfc.timeses = [Times(time='16.45'),
                    Times(time='17.30'),
                    Times(time='18.00'),
                    Times(time='13.40')
                    ]
-
     listmfc.append(mfc)
     mfc = MFC(
         name='МФЦ Василеостровского района',
