@@ -34,8 +34,14 @@ if __name__ == '__main__':
     recorder = RecordControl()
     newDict = recorder.getMFCsDict()
     MFCButton = newDict.get('МФЦ Адмиралтейского района')
+    for i in newDict:
+        print("newDict: ", i)
     recorder.initializeFreeDates(MFCButton)
+
+
     for date in MFCButton.getChildrens():
         print(date.display())
         for time in date.getChildrens():
             print(time.display())
+
+    Base
