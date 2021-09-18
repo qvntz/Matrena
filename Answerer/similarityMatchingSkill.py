@@ -1,7 +1,8 @@
 from logging import getLogger
 from typing import Tuple, Optional, List
 
-from deeppavlov import build_model, train_model
+from deeppavlov.core.commands.infer import build_model
+from deeppavlov import train_model
 from deeppavlov.configs import configs
 from deeppavlov.core.commands.utils import expand_path
 from deeppavlov.core.common.file import read_json

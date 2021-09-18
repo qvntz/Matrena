@@ -3,7 +3,7 @@ from typing import Dict, Optional, Tuple
 from pandas import DataFrame
 
 from Architecture.element import Button, Answer
-from DB.FuctionsDB import getMFCsNames, getFreeTimes, setRecord, getRecordByName, getRecordByUsername, getNearestMfc
+from DB.FuctionsDB import *
 from definitions import DF
 from exceptions.dataBaseException import DataBaseException
 
@@ -30,11 +30,12 @@ class RecordControl:
         return buttonsDict
 
     @staticmethod
-    def makeEntry(buttonTime: Button, MFCButton: Button, username: str, name: str,
+    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Button, username: str, name: str,
                   surname: str, phoneNumber: Optional[str] = None):
         phoneNumber = "-" if phoneNumber is None else phoneNumber
         try:
-            setRecord(time=buttonTime.display(), nameMFC=MFCButton.display(), username=username,
+            setRecord(time=buttonTime.display(), date=dateButton.display(), nameMFC=MFCButton.display(),
+                      username=username,
                       name=name, surname=surname, telephone=phoneNumber)
         except DataBaseException as e:
             print("Can not make entry with username " + username)
@@ -43,12 +44,24 @@ class RecordControl:
         MFCs = getMFCsNames()
         return self.__listToButtonsDict(MFCs)
 
-    def displayEntryOptionsByButton(self, MFCButton: Button) -> Dict[str, Button]:
-        freeTimesList = getFreeTimes(MFCButton.display())
+    def displayFreeTimesByButton(self, MFCButton: Button, dateButton: Button) -> Dict[str, Button]:
+        freeTimesList = getFreeTimes(date=dateButton.display(), nameMFC=MFCButton.display())
         freeTimesButtons = self.__listToButtonsDict(freeTimesList)
         for freeTime in freeTimesButtons.values():
-            MFCButton.addChild(freeTime)
+            dateButton.addChild(freeTime)
         return freeTimesButtons
+
+    def displayFreeDatesByButton(self, MFCButton: Button) -> Dict[str, Button]:
+        freeDatesList = getDate(MFCButton.display())
+        freeDatesButtons = self.__listToButtonsDict(freeDatesList)
+        # add Dates to MFC button
+        for freeDate in freeDatesButtons.values():
+            MFCButton.addChild(freeDate)
+            # add Times buttons to Date button
+            freeTimes = self.displayFreeTimesByButton(MFCButton=MFCButton, dateButton=freeDate)
+            for freeTimeButton in freeTimes.values():
+                freeDate.addChild(freeTimeButton)
+        return freeDatesButtons
 
     @staticmethod
     def getInfoAboutRecordByName(name: str, surname: str) -> Tuple[str, str]:
@@ -63,4 +76,3 @@ class RecordControl:
     @staticmethod
     def getNearestMFCButton(x: float, y: float) -> Button:
         return Button(text=getNearestMfc(x, y))
-

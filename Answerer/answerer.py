@@ -2,7 +2,6 @@ from typing import Optional
 
 # fix import
 import pandas as pd
-
 from Answerer.similarityMatchingSkill import SimilarityMatchingSkill
 from definitions import LEARNING_DATA_FILE, COMPLETED_FAQ_FILE
 
