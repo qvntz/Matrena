@@ -1,9 +1,5 @@
-from typing import Tuple
-
-from arсhive.finder_mfc import haversine
 from DB.MakeDB import MFC, Times, session
-
-
+from arсhive.finder_mfc import haversine
 # Получить id по имени
 from exceptions.dataBaseException import DataBaseException
 
@@ -19,14 +15,24 @@ def getCord(name: str):
 
 
 # Получить массив всех доступных времен
-def getFreeTimes(nameMFC: str) -> list:
+def getDate(nameMFC: str) -> list:
     temp = session.query(Times).filter(
         Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id).filter(
         Times.username == 'N').all()
     res = []
     for i in temp:
+        res.append(i.date)
+
+    return list(set(res))
+
+
+def getFreeTimes(nameMFC: str, date: str) -> list:
+
+    id = getID(nameMFC)
+    temp = session.query(Times).filter((Times.mfc_id == id), (Times.username == 'N'), (Times.date == date)).all()
+    res = []
+    for i in temp:
         res.append(i.time)
-    res = sorted(res)
     return res
 
 
@@ -40,7 +46,7 @@ def getMFCsNames() -> list:
 
 
 # Получить название ближайего
-def getNearestMfc(x1: float, y1: float) -> str:
+def getNearestMfc(x1: float, y1: float):
     temp = session.query(MFC).all()
     res = []
     temp1 = []
@@ -53,11 +59,11 @@ def getNearestMfc(x1: float, y1: float) -> str:
 
 
 # Записать человека по логину в телеграмме , имени , фамилии и номеру телефона
-def setRecord(time: str, nameMFC: str, username: str, name: str, surname: str, telephone: str):
+def setRecord(date : str , time: str, nameMFC: str, username: str, name: str, surname: str, telephone: str):
     try:
-        if time in getFreeTimes(nameMFC):
+        if time in getFreeTimes(nameMFC , date):
             session.query(Times).filter((Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id),
-                                        (Times.time == time)).update({'username': username,
+                                        (Times.time == time), (Times.date == date)).update({'username': username,
                                                                       'name': name,
                                                                       'surname': surname,
                                                                       'telephone': telephone})
@@ -70,7 +76,7 @@ def setRecord(time: str, nameMFC: str, username: str, name: str, surname: str, t
 
 
 # Получить данные о записи по имени и фамилии
-def getRecordByName(name: str, surname: str) -> Tuple[str, str]:
+def getRecordByName(name: str, surname: str):
     try:
         temp = session.query(Times).filter((Times.name == name), (Times.surname == surname)).first()
         return temp.time, session.query(MFC).filter(MFC.id == temp.id).first().name
