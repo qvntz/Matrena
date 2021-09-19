@@ -1,9 +1,9 @@
 import telebot
-import config
-import script
+import Bot.config as config
+import Bot.script as script
 from arсhive.finder_mfc import finder_mfc
 from Bot.responder import get_answer
-import utils
+import Bot.utils as utils
 from recordControl import RecordControl
 from Answerer.spellCheck import spellCheck
 
@@ -18,9 +18,11 @@ step = 0
 
 @bot.message_handler(commands=['start'])
 def greet(message):
-    bot.send_message(message.chat.id, "Привет :)\nЯ еще немножко глупенькая 😅, НО ТЫ НЕ ПУГАЙСЯ!!!!"
-                                      "\nЯ учусь и скоро буду очень умной ( круче всех😎😎😎 )"
-                                      "\nА пока ты можешь мне помочь, узнав то, что тебя интересует ☺️☺️☺️",
+    bot.send_message(message.chat.id, "Привет, меня зовут Матрёна, я чат-бот для МФЦ.\n"
+                                      "Я могу помочь со следующим:\n"
+                                      "1. Найти ближайший офис МФЦ.\n"
+                                      "2. Записать в МФЦ.\n"
+                                      "3. Помочь найти ответ на твой вопрос",
                      reply_markup=utils.generate_mainMenu_markup())
 
 

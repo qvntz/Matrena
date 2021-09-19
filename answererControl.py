@@ -26,7 +26,7 @@ class AnswererControl:
 
     def __giveAnswer(self, question: str) -> List[DataFrame]:
         try:
-            return self.__answerer.giveAnswer(question)
+            return self.__answerer.giveAnswer(question)[:3]
         except TypeError as e:
             print("Answerer problems: ", e)
 

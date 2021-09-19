@@ -4,6 +4,7 @@ from typing import Optional, List
 import pandas as pd
 from Answerer.similarityMatchingSkill import SimilarityMatchingSkill
 from definitions import LEARNING_DATA_FILE, COMPLETED_FAQ_FILE
+
 faqCSVPath = LEARNING_DATA_FILE
 completedFaq = COMPLETED_FAQ_FILE
 
@@ -12,7 +13,7 @@ class Answerer(object):
 
     # change Ответ и Вопрос везде!!!
     def __init__(self, data_path: Optional[str] = faqCSVPath, config_type: Optional[str] = 'tfidf_logreg_autofaq',
-                 x_col_name: Optional[str] = 'Ответ', y_col_name: Optional[str] = 'Вопрос',
+                 x_col_name: Optional[str] = 'Вопрос', y_col_name: Optional[str] = 'Ответ',
                  save_load_path: Optional[str] = './answer_skill',
                  edit_dict: Optional[dict] = None, train: Optional[bool] = False):
         try:
@@ -42,15 +43,17 @@ class Answerer(object):
             raise TypeError("There's no question")
         questions = [question]
         answers, score = self.__faq_skill(questions, [], [])
-        answers = answers[0]
-        answers = [answers[i] + ' ' for i in range(len(answers))]
-        if score[0] < 0.14:
+        if score[0] < 0.02:
             return list()
-        else:
-            dataframes = list()
-            for answer in answers:
-                dataframes.append(self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer])
-            return dataframes
-        # dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer)
-        # answers = self.__completedAnswersDf[dfFilterForGetAll]
-        # return answers
+        answers = answers[0]
+        answersDFsList = list()
+        for answer in answers:
+            df_filter = self.__rawFAQDf['Ответ'].isin([answer])
+            answerFilter = self.__completedAnswersDf[df_filter]
+            dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answerFilter['Вопрос'])
+            answersDFsList.append(self.__completedAnswersDf[dfFilterForGetAll])
+
+        return answersDFsList
+    # dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer)
+    # answers = self.__completedAnswersDf[dfFilterForGetAll]
+    # return answers
