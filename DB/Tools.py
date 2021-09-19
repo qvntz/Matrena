@@ -47,12 +47,42 @@ def get_3_date() -> List[str]:
 def get_date_now():
     temp_date = datetime.today().date()
     return str(temp_date)
-    # print(temp_date)
-    # return get_data_from_str(str(temp_date))
 
 
 format = '%Y-%m-%d'
+def get_datetime_from_data(date:str):
+    temp_date = datetime.today().date().year
+    if ' января' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 1).date()
+    elif ' февраля' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 2).date()
+    elif ' марта' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 3).date()
+    elif ' апреля' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 4).date()
+    elif ' мая' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 5).date()
+    elif ' июня' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 6).date()
+    elif ' июля' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 7).date()
+    elif ' августа' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 8).date()
+    elif ' сентября' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 9).date()
+    elif ' октября' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 10).date()
+    elif ' ноября' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 11).date()
+    elif ' декабря' in date:
+        return datetime(year=temp_date , day=int(date[0:2])  , month= 12).date()
+    else:
+        return Exception
 
+# print(get_datetime_from_str('12 января'))
+# print(get_datetime_from_str('12 ноября'))
+# print(get_datetime_from_str('12 февраля'))
+# print(get_datetime_from_str('12 мая'))
 
 def get_data_from_str(date: str):
     temp_date = datetime.strptime(date, format).date()

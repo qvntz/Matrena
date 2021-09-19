@@ -1,13 +1,12 @@
 from typing import List
-import os
+
 import sqlalchemy.orm
-from sqlalchemy import Column, Integer, String, ForeignKey, Float , DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from DB.Tools import get_list_times, get_date_now
-
+from DB.Tools import get_list_times, get_3_date
 
 Base = declarative_base()
 engine = create_engine('sqlite:///../db.sqlite')
@@ -42,9 +41,9 @@ class Times(Base):
     id = Column(Integer, primary_key=True)
     time = Column(String, nullable=False)
     date = Column(String, nullable=False)
-    username = Column(String, default='N')
+    chat_id = Column(String, default='N')
     name = Column(String)
-    surname = Column(String)
+    # surname = Column(String)
     telephone = Column(String)
     mfc_id = Column(Integer, ForeignKey('mfcs.id'))
     mfcs = sqlalchemy.orm.relationship("MFC", backref='timeses')
@@ -52,16 +51,28 @@ class Times(Base):
 
 # Func
 # -----------------------------------------------------------------------------------------------------------------------
-def get_list_table_times(times: List[str], date: str):
+def get_list_table_times(times: List[str], date: List[str]):
+    result = []
+    # print(date)
+    for j in date:
+        for i in times:
+            result.append(Times(time=i,
+                                date=j))
+    return result
+
+
+def get_list_table_times_3(times: List[str], date: str):
     result = []
     for i in times:
         result.append(Times(time=i,
                             date=date))
     return result
 
+
 def post_MFC():
     listmfc = []
-    temp_date = get_date_now()
+    temp_date = get_3_date()
+
     mfc = MFC(
         name='МФЦ Адмиралтейского района',
         x=59.92361013193151, y=30.284494930685902)

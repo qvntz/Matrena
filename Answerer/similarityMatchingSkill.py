@@ -7,7 +7,6 @@ from deeppavlov.core.commands.utils import expand_path
 from deeppavlov.core.common.file import read_json
 from deeppavlov.core.data.utils import update_dict_recursive
 from deeppavlov.core.skill.skill import Skill
-from pyaspeller import YandexSpeller
 
 log = getLogger(__name__)
 
@@ -87,9 +86,6 @@ class SimilarityMatchingSkill(Skill):
         Returns:
             Batches of the skill inference results and estimated confidences.
         """
-        speller = YandexSpeller()
-        for i in range(len(utterances_batch)):
-            utterances_batch[i] = speller.spelled(utterances_batch[i])
 
         responses, confidences = self.model(utterances_batch)
 
