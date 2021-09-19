@@ -30,15 +30,15 @@ class RecordControl:
         return buttonsDict
 
     @staticmethod
-    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Element, username: str, name: str,
-                  surname: str, phoneNumber: Optional[str] = None):
+    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Element, chatID: str, name: str,
+                  phoneNumber: Optional[str] = None):
         phoneNumber = "-" if phoneNumber is None else phoneNumber
         try:
             setRecord(time=buttonTime.display(), date=dateButton.display(), nameMFC=MFCButton.display(),
-                      username=username,
-                      name=name, surname=surname, telephone=phoneNumber)
+                      chat_id=chatID,
+                      name=name,telephone=phoneNumber)
         except DataBaseException as e:
-            print("Can not make entry with username " + username)
+            print("Can not make entry with username " + chatID)
 
     def getMFCsDict(self) -> Dict[str, Button]:
         MFCs = getMFCsNames()
@@ -61,14 +61,14 @@ class RecordControl:
             freeTimes = self.__getDictFreeTimesByButton(MFCButton=MFCButton, dateButton=freeDate)
 
     @staticmethod
-    def getInfoAboutRecordByName(name: str, surname: str) -> Tuple[str, str]:
-        timeNameTuple = getRecordByName(name=name, surname=surname)
-        return timeNameTuple
+    def getInfoByName(name: str) -> List[str]:
+        timeNameList = getRecordByName(name=name)
+        return timeNameList
 
     @staticmethod
-    def getInfoAboutRecordByUsername(username: str) -> Tuple[str, str]:
-        timeNameTuple = getRecordByUsername(username)
-        return timeNameTuple
+    def getInfoAboutRecordByChatID(chatID: str) -> List[str]:
+        timeNameList = getRecordByUsername(chatID)
+        return timeNameList
 
     @staticmethod
     def getNearestMFCButton(x: float, y: float) -> Button:

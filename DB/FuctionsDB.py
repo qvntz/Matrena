@@ -1,3 +1,5 @@
+from typing import List
+
 from DB.MakeDB import MFC, Times, session
 from DB.Tools import get_data_from_str
 from arсhive.finder_mfc import haversine
@@ -28,7 +30,6 @@ def getDate(nameMFC: str) -> list:
 
 
 def getFreeTimes(nameMFC: str, date: str) -> list:
-
     id = getID(nameMFC)
     temp = session.query(Times).filter((Times.mfc_id == id), (Times.chat_id == 'N'), (Times.date == date)).all()
     res = []
@@ -60,13 +61,13 @@ def getNearestMfc(x1: float, y1: float):
 
 
 # Записать человека по логину в телеграмме , имени , фамилии и номеру телефона
-def setRecord(date : str, time: str, nameMFC: str, chat_id: str, name: str, telephone: str):
+def setRecord(date: str, time: str, nameMFC: str, chat_id: str, name: str, telephone: str):
     try:
-        if time in getFreeTimes(nameMFC , date):
+        if time in getFreeTimes(nameMFC, date):
             session.query(Times).filter((Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id),
                                         (Times.time == time), (Times.date == date)).update({'chat_id': chat_id,
-                                                                      'name': name,
-                                                                      'telephone': telephone})
+                                                                                            'name': name,
+                                                                                            'telephone': telephone})
             session.commit()
             print('Done ', chat_id, ' - ', time)
         else:
@@ -74,28 +75,30 @@ def setRecord(date : str, time: str, nameMFC: str, chat_id: str, name: str, tele
     except Exception as e:
         print(e)
 
+
 # 'surname': surname,   surname: str
 
 
-# Получить данные о записи по имени и фамилии
-def getRecordByName(name: str):
+# Получить данные о записи по имени
+def getRecordByName(name: str) -> List[str]:
     try:
         temp = session.query(Times).filter((Times.name == name)).first()
-        return temp.time ,get_data_from_str(str( temp.date)), session.query(MFC).filter(MFC.id == temp.mfc_id).first().name
+        return [temp.time, get_data_from_str(str(temp.date)), session.query(MFC).filter(
+            MFC.id == temp.mfc_id).first().name]
 
     except Exception as e:
         print(e)
 
 
 # Получить данные о записи по логину
-def getRecordByUsername(username: str):
+def getRecordByUsername(username: str) -> List[str]:
     try:
         temp = session.query(Times).filter(Times.chat_id == username).first()
-        return temp.time, get_data_from_str(str( temp.date)) , session.query(MFC).filter(MFC.id == temp.mfc_id).first().name
+        return [temp.time, get_data_from_str(str(temp.date)), session.query(MFC).filter(
+            MFC.id == temp.mfc_id).first().name]
 
     except Exception as e:
-        raise DataBaseException()
-
+        return []
 
 '''Tests'''
 # print('getCord')
