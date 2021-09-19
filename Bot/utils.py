@@ -1,7 +1,7 @@
 from telebot import types
 import re
 from DB.Tools import get_data_from_str
-
+import random
 
 def generate_mfc_markup(MFCButtons):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=1)
@@ -48,3 +48,12 @@ def generate_markup(buttons, width=1, mainMenu=None):
 
 def generate_mainMenu_markup():
     return generate_markup(["Популярные вопросы", "Запись на консультацию", "Ближайший МФЦ"])
+
+
+def error_message():
+    message = ["Упс, что-то пошло не так\nВерну Вас в главное меню :(",
+               "Голова болит, забыла что мы делали, давайте попробуем еще раз\nВозвращаю в главное меню",
+               "А может не будем этим заниматься, а посмотрим, что еще я умею?\nПеревожу в главное меню",
+               "Ой-ой, где-то накосячила. Вызываю спасателей\nЛетим в главное меню!!"]
+
+    return random.choice(message)

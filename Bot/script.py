@@ -36,7 +36,8 @@ def process_name_step(message):
                                reply_markup=utils.generate_mfc_markup(user.temp))
         bot.register_next_step_handler(msg, process_MFC_step)
     except Exception as e:
-        bot.reply_to(message, 'Упс :(')
+        bot.reply_to(message, utils.error_message())
+        bot.send_message(message.chat.id, 'Вернула!', reply_markup=utils.generate_mainMenu_markup())
 
 
 def process_MFC_step(message):
@@ -52,7 +53,9 @@ def process_MFC_step(message):
                                reply_markup=utils.generate_date_markup(user.temp))
         bot.register_next_step_handler(msg, process_day_step)
     except Exception as e:
-        bot.reply_to(message, 'Упс :(')
+        print(e)
+        bot.reply_to(message, utils.error_message())
+        bot.send_message(message.chat.id, 'Вернула!', reply_markup=utils.generate_mainMenu_markup())
 
 
 def process_day_step(message):
@@ -69,7 +72,8 @@ def process_day_step(message):
         # генерирую клаву
         bot.register_next_step_handler(msg, process_time_step)
     except:
-        bot.reply_to(message, 'Упс :(')
+        bot.reply_to(message, utils.error_message())
+        bot.send_message(message.chat.id, 'Вернула!', reply_markup=utils.generate_mainMenu_markup())
 
 
 def process_time_step(message):
@@ -102,7 +106,8 @@ def process_phone_step(message):
             msg = bot.reply_to(message, "Меня не проведешь, вводи настоящий номер!")
             bot.register_next_step_handler(msg, process_phone_step)
     except Exception as e:
-        bot.reply_to(message, 'Упс :(')
+        bot.reply_to(message, utils.error_message())
+        bot.send_message(message.chat.id, 'Вернула!', reply_markup=utils.generate_mainMenu_markup())
 
 
 bot.polling()
