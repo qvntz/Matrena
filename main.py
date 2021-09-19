@@ -4,7 +4,7 @@ from recordControl import RecordControl
 
 if __name__ == '__main__':
     # control = AnswererControl()
-
+    print(1)
     # Запрос пользователя
     # todo возващать больше одного овтета - смотри закладки гугл
     # dict1 = control.answerForQuery('Получить паспорт')
@@ -30,8 +30,8 @@ if __name__ == '__main__':
 
     # Создание заглушки бд мфц
 
-    Base.metadata.create_all(bind=engine)
-    post_MFC()
+    # Base.metadata.create_all(bind=engine)
+    # post_MFC()
 
     # recorder = RecordControl()
     # newDict = recorder.getMFCsDict()

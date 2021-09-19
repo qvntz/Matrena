@@ -6,6 +6,7 @@ from Bot.responder import get_answer
 import utils
 from DB.FuctionsDB import getRecordByUsername
 from recordControl import RecordControl
+from Answerer.spellCheck import spellCheck
 
 bot = telebot.TeleBot(config.token)
 step = 0
@@ -30,31 +31,35 @@ def info(message):
 
 @bot.message_handler(content_types=["text"])
 def answer(message):
-    if "главное меню" == message.text.lower():
+    current_text = spellCheck(message.text.lower())
+    if "главное меню" == current_text:
         bot.send_message(message.chat.id, "Переключаю на главное меню..", reply_markup=utils.generate_mainMenu_markup())
 
-    elif "проверить запись" == message.text.lower():
+    elif "проверить запись" == current_text:
          record = RecordControl()
          temp = record.getInfoAboutRecordByChatID(chatID=message.chat.id)
          if temp:
-             bot.send_message(message.chat.id, f"Проверила запись 😁\nВы записаны в {temp[2]} \n{temp[1]} на {temp[0]} 🥳🥳🥳")
+             bot.send_message(message.chat.id, f"Проверила запись 😁\nВы записаны в {temp[2]} \n{temp[1]} на {temp[0]} 🥳🥳🥳0",
+                              reply_markup=utils.generate_mainMenu_markup())
+         else:
+             bot.send_message(message.chat.id, "Вы еще не записаны", reply_markup=utils.generate_mainMenu_markup())
 
-    elif "ближайший мфц" == message.text.lower():
+    elif "ближайший мфц" == current_text:
         keyboard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
         button_geo = telebot.types.KeyboardButton(text="Отправить местоположение", request_location=True)
         keyboard.add(button_geo)
         bot.send_message(message.chat.id, "Для этого Вам нужно нажать на кнопку"
                                           " и отправить мне свое местоположение",
                          reply_markup=keyboard)
-    elif "популярные вопросы" == message.text.lower():
+    elif "популярные вопросы" == current_text:
         bot.send_message(message.chat.id, "Самые популярные категории на данный момент",
                          reply_markup=utils.generate_markup(["Паспорт", "СНИЛС", "Запись на консультацию",
                                                              "Ближайший МФЦ"], 2, mainMenu=True))
 
-    elif "запись на консультацию" == message.text.lower():
+    elif "запись на консультацию" == current_text:
         script.appointment(message)  # сценарий записи
 
-    elif "госуслуги" == message.text.lower():
+    elif "госуслуги" == current_text:
         keyboard = telebot.types.InlineKeyboardMarkup()
         url_button = telebot.types.InlineKeyboardButton(text="Перейти на Госуслуги", url="https://www.gosuslugi.ru/")
         keyboard.add(url_button)
@@ -72,7 +77,8 @@ def answer(message):
 def location(message):
     if message.location is not None:
         bot.send_message(message.chat.id,
-                         f"Ближе всего к Вам: \n{finder_mfc(message.location.latitude, message.location.longitude)}")
+                         f"Ближе всего к Вам: \n{finder_mfc(message.location.latitude, message.location.longitude)}",
+                         reply_markup=utils.generate_mainMenu_markup())
 
 
 if __name__ == "__main__":

@@ -40,3 +40,15 @@ def delete_past_time(names_mfc: List[str]):
     except Exception as e:
         pass
     #  ни в коем случае не меня на райз , хз почему но оно выводит ошибку , но рабоатет правильно
+
+
+def delete_past_time_by_name(name_mfc):
+    try:
+        now = datetime.now()
+        time = now.time()
+        date = now.date()
+        id = getID(name_mfc)
+        session.query(Times).filter((Times.mfc_id == id), (Times.date <= str(date)) , (Times.time < str(time)[0:5])).delete()
+        session.commit()
+    except Exception as e:
+        print(e)

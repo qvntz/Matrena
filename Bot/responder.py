@@ -1,7 +1,7 @@
 from answererControl import AnswererControl
 from Bot.utils import generate_markup, generate_mainMenu_markup
 import time
-
+from Answerer.spellCheck import spellCheck
 
 # --------------- Сценарий ответа на вопрос ---------------
 # --------------- Сценарий ответа на вопрос ---------------
@@ -9,7 +9,8 @@ import time
 
 def get_answer(message, bot):
     control = AnswererControl()
-    dict1 = control.answerForQuery(message.text)
+    temp = spellCheck(message.text.lower())
+    dict1 = control.answerForQuery(temp)
     if dict1:
         msg = bot.send_message(message.chat.id, "Уже ищу..!\n",
                                reply_markup=generate_markup(dict1.keys(), width=1))
@@ -63,4 +64,5 @@ def choise_interest_step(message, bot, list1):
                     if not i: continue
                     bot.send_message(message.chat.id, i)
                     time.sleep(0.1)
+                bot.send_message(message.chat.id, "Перевожу главное меню", reply_markup=generate_mainMenu_markup())
                 break
