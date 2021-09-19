@@ -4,9 +4,9 @@ import script
 from arсhive.finder_mfc import finder_mfc
 from Bot.responder import get_answer
 import utils
-from DB.FuctionsDB import getRecordByUsername
 from recordControl import RecordControl
 from Answerer.spellCheck import spellCheck
+
 
 bot = telebot.TeleBot(config.token)
 step = 0
