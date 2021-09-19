@@ -1,4 +1,5 @@
-from typing import Dict, Optional, Tuple
+from collections import OrderedDict
+from typing import Dict, Optional
 
 from pandas import DataFrame
 
@@ -23,7 +24,7 @@ class RecordControl:
 
     @staticmethod
     def __listToButtonsDict(array: list) -> Dict[str, Button]:
-        buttonsDict = {}
+        buttonsDict = OrderedDict()
         for item in array:
             newButton = Button(text=item)
             buttonsDict[item] = newButton
@@ -36,7 +37,7 @@ class RecordControl:
         try:
             setRecord(time=buttonTime, date=dateButton, nameMFC=MFCButton,
                       chat_id=chatID,
-                      name=name,telephone=phoneNumber)
+                      name=name, telephone=phoneNumber)
         except DataBaseException as e:
             print("Can not make entry with username " + chatID)
 
