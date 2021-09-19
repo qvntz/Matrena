@@ -142,7 +142,7 @@ def process_phone_step(message):
                                    MFCButton=user.MFC, phoneNumber=user.phone,
                                    chatID=chat_id, name=user.name)
 
-                bot.reply_to(message, f"Ты записан!\nИмя: {user.name}\nВремя: {user.time.strftime('%H:%M')}\n"
+                bot.reply_to(message, f"Вы записаны!\nИмя: {user.name}\nВремя: {user.time.strftime('%H:%M')}\n"
                                       f"День: {user.day}\nТелефон: {user.phone}", reply_markup=utils.generate_mainMenu_markup())
             else:
                 msg = bot.reply_to(message, "Меня не проведешь, вводи настоящий номер!")

@@ -9,7 +9,6 @@ from Answerer.spellCheck import spellCheck
 
 
 bot = telebot.TeleBot(config.token)
-step = 0
 
 # from DB.MakeDB import delete_DB, Base, engine, post_MFC
 # Base.metadata.create_all(bind=engine)
@@ -41,7 +40,7 @@ def answer(message):
          record = RecordControl()
          temp = record.getInfoAboutRecordByChatID(chatID=message.chat.id)
          if temp:
-             bot.send_message(message.chat.id, f"Проверила запись 😁\nВы записаны в {temp[2]} \n{temp[1]} на {temp[0]} 🥳🥳🥳0",
+             bot.send_message(message.chat.id, f"Проверила запись 😁\nВы записаны в {temp[2]} \n{temp[1]} на {temp[0]} 🥳",
                               reply_markup=utils.generate_mainMenu_markup())
          else:
              bot.send_message(message.chat.id, "Вы еще не записаны", reply_markup=utils.generate_mainMenu_markup())
