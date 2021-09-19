@@ -12,12 +12,15 @@ def get_answer(message, bot):
 
 def choise_method_step(message, bot, dict1):
     a = []
-    for i in dict1[message.text + " "].getChildrens():
-        a.append(i.display())
+    if message.text + " " in dict1:
+        for i in dict1[message.text + " "].getChildrens():
+            a.append(i.display())
 
-    msg = bot.send_message(message.chat.id, "Я прикрепил снизу все ссылки, чтобы тебе было удобнее.",
-                           reply_markup=generate_markup(a))
-    bot.register_next_step_handler(msg, lambda m: choise_step(m, bot, dict1[message.text + " "]))
+        msg = bot.send_message(message.chat.id, "Я прикрепил снизу все ссылки, чтобы тебе было удобнее.",
+                               reply_markup=generate_markup(a))
+        bot.register_next_step_handler(msg, lambda m: choise_step(m, bot, dict1[message.text + " "]))
+    else:
+        bot.reply_to(message, "Упс(")
 
 
 def choise_step(message, bot, list1):
