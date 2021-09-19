@@ -98,8 +98,7 @@ def getRecordByUsername(username: str) -> List[str]:
             MFC.id == temp.mfc_id).first().name]
 
     except Exception as e:
-        raise DataBaseException()
-
+        return []
 
 '''Tests'''
 # print('getCord')
