@@ -35,6 +35,8 @@ class AnswererControl:
     def answerForQuery(self, query: str) -> Dict[str, Button]:
         answersDict = {}
         answerDf = self.__giveAnswer(query)
+        if answerDf is None:
+            return answersDict
         button = RecordControl.queryDfToButton(answerDf)
         # Тут всплыла проблема : добавление поля вопроса в класс Button , если нам предстоит менять текст
         # после тыка по кнопке с нужным вопросом из трех предложенных нейронкой , то надо его добавлять и меня метод

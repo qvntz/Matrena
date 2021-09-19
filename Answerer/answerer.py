@@ -37,13 +37,16 @@ class Answerer(object):
             """
 
     # -> pd.DataFrame
-    def giveAnswer(self, question: Optional[str] = None) -> pd.DataFrame:
+    def giveAnswer(self, question: Optional[str] = None) -> Optional[pd.DataFrame]:
         if question is None:
             raise TypeError("There's no question")
         questions = [question]
         answers, score = self.__faq_skill(questions, [], [])
         answer = answers[0] + ' '
-        return self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer]
+        if score[0] < 0.15:
+            return None
+        else:
+            return self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer]
         # dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer)
         # answers = self.__completedAnswersDf[dfFilterForGetAll]
         # return answers

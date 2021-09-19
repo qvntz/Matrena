@@ -6,7 +6,8 @@ if __name__ == '__main__':
     control = AnswererControl()
 
     # Запрос пользователя
-    dict1 = control.answerForQuery('Получить паспорт')
+    # todo возващать больше одного овтета - смотри закладки гугл
+    dict1 = control.answerForQuery('Главное меню')
     for answer in dict1:
         print(answer)
     # Словарь содержит кнопки с ответами, дети кнопок элементы таблицы со следующей иерархией:
