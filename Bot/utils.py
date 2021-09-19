@@ -3,6 +3,7 @@ import re
 from DB.Tools import get_data_from_str
 import random
 
+
 def generate_mfc_markup(MFCButtons):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=1)
     for MFC in MFCButtons:
@@ -47,7 +48,8 @@ def generate_markup(buttons, width=1, mainMenu=None):
 
 
 def generate_mainMenu_markup():
-    return generate_markup(["Популярные вопросы", "Запись на консультацию", "Ближайший МФЦ"])
+    return generate_markup(["Популярные вопросы", "Запись на консультацию",
+                            "Ближайший МФЦ", "Проверить запись"])
 
 
 def error_message():

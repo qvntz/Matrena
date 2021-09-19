@@ -4,9 +4,15 @@ import script
 from arсhive.finder_mfc import finder_mfc
 from Bot.responder import get_answer
 import utils
+from DB.FuctionsDB import getRecordByUsername
+from recordControl import RecordControl
 
 bot = telebot.TeleBot(config.token)
 step = 0
+
+# from DB.MakeDB import delete_DB, Base, engine, post_MFC
+# Base.metadata.create_all(bind=engine)
+# post_MFC()
 
 
 @bot.message_handler(commands=['start'])
@@ -26,6 +32,12 @@ def info(message):
 def answer(message):
     if "главное меню" == message.text.lower():
         bot.send_message(message.chat.id, "Переключаю на главное меню..", reply_markup=utils.generate_mainMenu_markup())
+
+    elif "проверить запись" == message.text.lower():
+         record = RecordControl()
+         temp = record.getInfoAboutRecordByChatID(chatID=message.chat.id)
+         if temp:
+             bot.send_message(message.chat.id, f"Проверила запись 😁\nВы записаны в {temp[2]} \n{temp[1]} на {temp[0]} 🥳🥳🥳")
 
     elif "ближайший мфц" == message.text.lower():
         keyboard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)

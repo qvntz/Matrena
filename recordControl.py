@@ -30,11 +30,11 @@ class RecordControl:
         return buttonsDict
 
     @staticmethod
-    def makeEntry(MFCButton: Button, dateButton: Button, buttonTime: Element, chatID: str, name: str,
+    def makeEntry(MFCButton, dateButton, buttonTime, chatID: str, name: str,
                   phoneNumber: Optional[str] = None):
         phoneNumber = "-" if phoneNumber is None else phoneNumber
         try:
-            setRecord(time=buttonTime.display(), date=dateButton.display(), nameMFC=MFCButton.display(),
+            setRecord(time=buttonTime, date=dateButton, nameMFC=MFCButton,
                       chat_id=chatID,
                       name=name,telephone=phoneNumber)
         except DataBaseException as e:

@@ -8,7 +8,7 @@
       <jdbc-url>jdbc:sqlite:C:\Users\ilya\PycharmProjects\Hakaton\pythonProject\db.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="db [2]" uuid="40ab7f26-f91b-48f9-ae5a-98095f257088">
+    <data-source source="LOCAL" name="db [2]" uuid="397b127b-c73e-4a51-bbdc-501b706894e9">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

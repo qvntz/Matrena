@@ -3,13 +3,13 @@ from answererControl import AnswererControl
 from recordControl import RecordControl
 
 if __name__ == '__main__':
-    control = AnswererControl()
+    # control = AnswererControl()
 
     # Запрос пользователя
     # todo возващать больше одного овтета - смотри закладки гугл
-    dict1 = control.answerForQuery('Получить паспорт')
-    for answer in dict1:
-        print(answer)
+    # dict1 = control.answerForQuery('Получить паспорт')
+    # for answer in dict1:
+    #     print(answer)
     # Словарь содержит кнопки с ответами, дети кнопок элементы таблицы со следующей иерархией:
     # Вопрос -> Способ -> Документы, Порядок действий , Ссылка
     # for key in dict1:
@@ -30,8 +30,8 @@ if __name__ == '__main__':
 
     # Создание заглушки бд мфц
 
-    # Base.metadata.create_all(bind=engine)
-    # post_MFC()
+    Base.metadata.create_all(bind=engine)
+    post_MFC()
 
     # recorder = RecordControl()
     # newDict = recorder.getMFCsDict()

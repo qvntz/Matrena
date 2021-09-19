@@ -2,6 +2,7 @@ from Bot.bot import bot
 import utils
 import datetime
 from recordControl import RecordControl
+from DB.Tools import get_datetime_from_data
 
 user_dict = {}
 recorder = RecordControl()
@@ -99,13 +100,14 @@ def process_phone_step(message):
             bot.reply_to(message, f"Ты записан!\nИмя: {user.name}\nВремя: {user.time.strftime('%H:%M')}\n"
                                   f"День: {user.day}\nТелефон: {user.phone}")
 
-            recorder.makeEntry(buttonTime=user.time, dateButton=user.day, MFCButton=user.MFC,
-                               name=user.name, surname=user.phone,
-                               username=chat_id)
+            recorder.makeEntry(buttonTime=user.time.strftime('%H:%M'), dateButton=get_datetime_from_data(user.day),
+                               MFCButton=user.MFC, phoneNumber=user.phone,
+                               chatID=chat_id, name=user.name)
         else:
             msg = bot.reply_to(message, "Меня не проведешь, вводи настоящий номер!")
             bot.register_next_step_handler(msg, process_phone_step)
     except Exception as e:
+        print(e)
         bot.reply_to(message, utils.error_message())
         bot.send_message(message.chat.id, 'Вернула!', reply_markup=utils.generate_mainMenu_markup())
 

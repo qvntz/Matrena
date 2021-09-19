@@ -62,5 +62,5 @@ def choise_interest_step(message, bot, list1):
                 for i in msg:
                     if not i: continue
                     bot.send_message(message.chat.id, i)
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                 break

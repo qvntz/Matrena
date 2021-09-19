@@ -61,20 +61,32 @@ def getNearestMfc(x1: float, y1: float):
 
 
 # Записать человека по логину в телеграмме , имени , фамилии и номеру телефона
-def setRecord(date: str, time: str, nameMFC: str, chat_id: str, name: str, telephone: str):
+# def setRecord(date: str, time: str, nameMFC: str, chat_id: str, name: str, telephone: str):
+#     try:
+#         if time in getFreeTimes(nameMFC, date):
+#             session.query(Times).filter((Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id),
+#                                         (Times.time == time), (Times.date == date)).update({'chat_id': chat_id,
+#                                                                                             'name': name,
+#                                                                                             'telephone': telephone})
+#             session.commit()
+#             print('Done ', chat_id, ' - ', time)
+#         else:
+#             print('No this time ')
+#     except Exception as e:
+#         print(e)
+def setRecord(date : str, time: str, nameMFC: str, chat_id: str, name: str, telephone: str):
     try:
-        if time in getFreeTimes(nameMFC, date):
+        if str(time) in getFreeTimes(nameMFC , str(date)):
             session.query(Times).filter((Times.mfc_id == session.query(MFC).filter(MFC.name == nameMFC).first().id),
                                         (Times.time == time), (Times.date == date)).update({'chat_id': chat_id,
-                                                                                            'name': name,
-                                                                                            'telephone': telephone})
+                                                                      'name': str(name),
+                                                                      'telephone': str(telephone)})
             session.commit()
             print('Done ', chat_id, ' - ', time)
         else:
             print('No this time ')
     except Exception as e:
         print(e)
-
 
 # 'surname': surname,   surname: str
 
