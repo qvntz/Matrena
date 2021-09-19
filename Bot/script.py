@@ -119,7 +119,7 @@ def process_time_step(message):
                                reply_markup=utils.generate_markup(["В начало", "Главное меню"]))
             bot.register_next_step_handler(msg, process_phone_step)
     except:
-        msg = bot.send_message(message.chat.id, "Нажимай кнопку, а не пиши сам.")
+        msg = bot.send_message(message.chat.id, "Нажимайте кнопку, а не пишите.")
         # генерирую клаву
         bot.register_next_step_handler(msg, process_time_step)
 

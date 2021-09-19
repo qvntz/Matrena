@@ -7,7 +7,6 @@ import random
 def generate_mfc_markup(MFCButtons):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=1)
     markup.add("Главное меню")
-    markup.add("Назад")
     for MFC in MFCButtons:
         markup.add(MFC)
     return markup
@@ -17,7 +16,7 @@ def generate_date_markup(DateButtons):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=2)
     for button in DateButtons:
         markup.add(get_data_from_str(button.display()))
-    markup.add("Назад")
+    markup.add("В начало")
     markup.add("Главное меню")
     return markup
 
@@ -26,7 +25,7 @@ def generate_time_markup(TimeButtons):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=5)
     for button in TimeButtons:
         markup.add(button.display())
-    markup.add("Назад")
+    markup.add("В начало")
     markup.add("Главное меню")
     return markup
 

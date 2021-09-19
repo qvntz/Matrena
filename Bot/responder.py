@@ -13,7 +13,7 @@ def get_answer(message, bot):
     temp = spellCheck(message.text.lower())
     dict1 = control.answerForQuery(temp)
     if dict1:
-        msg = bot.send_message(message.chat.id, "Уже ищу..!\n",
+        msg = bot.send_message(message.chat.id, "Вот что я нашла для Вас!\n",
                                reply_markup=generate_markup(dict1.keys(), width=1, mainMenu=True))
         bot.register_next_step_handler(msg, lambda m: choise_method_step(m, bot, dict1))
     else:
