@@ -43,6 +43,7 @@ class SimilarityMatchingSkill(Skill):
                              .format(config_type, ", ".join(configs.faq.keys())))
         # В конфиге прописано  "save_path": "{MODELS_PATH}/vectorizer/tfidf_vectorizer_ruwiki.pkl",
         # Хотим изменить на твиитер - нужно менять тут
+        configPath = configs.faq[config_type]
         model_config = read_json(configs.faq[config_type])
 
         if x_col_name is not None:

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 # fix import
 import pandas as pd
@@ -11,7 +11,7 @@ completedFaq = COMPLETED_FAQ_FILE
 class Answerer(object):
 
     # change Ответ и Вопрос везде!!!
-    def __init__(self, data_path: Optional[str] = faqCSVPath, config_type: Optional[str] = 'tfidf_autofaq',
+    def __init__(self, data_path: Optional[str] = faqCSVPath, config_type: Optional[str] = 'tfidf_logreg_autofaq',
                  x_col_name: Optional[str] = 'Ответ', y_col_name: Optional[str] = 'Вопрос',
                  save_load_path: Optional[str] = './answer_skill',
                  edit_dict: Optional[dict] = None, train: Optional[bool] = False):
@@ -37,16 +37,20 @@ class Answerer(object):
             """
 
     # -> pd.DataFrame
-    def giveAnswer(self, question: Optional[str] = None) -> Optional[pd.DataFrame]:
+    def giveAnswer(self, question: Optional[str] = None) -> List[pd.DataFrame]:
         if question is None:
             raise TypeError("There's no question")
         questions = [question]
         answers, score = self.__faq_skill(questions, [], [])
-        answer = answers[0] + ' '
-        if score[0] < 0.15:
-            return None
+        answers = answers[0]
+        answers = [answers[i] + ' ' for i in range(len(answers))]
+        if score[0] < 0.14:
+            return list()
         else:
-            return self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer]
+            dataframes = list()
+            for answer in answers:
+                dataframes.append(self.__completedAnswersDf.loc[self.__completedAnswersDf['Вопрос'] == answer])
+            return dataframes
         # dfFilterForGetAll = self.__completedAnswersDf['Вопрос'].isin(answer)
         # answers = self.__completedAnswersDf[dfFilterForGetAll]
         # return answers
