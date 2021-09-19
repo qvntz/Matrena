@@ -44,3 +44,7 @@ def generate_markup(buttons, width=1, mainMenu=None):
     if mainMenu is not None:
         markup.add("Главное меню")
     return markup
+
+
+def generate_mainMenu_markup():
+    return generate_markup(["Популярные вопросы", "Запись на консультацию", "Ближайший МФЦ"])

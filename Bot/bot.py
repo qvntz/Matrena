@@ -12,9 +12,9 @@ step = 0
 @bot.message_handler(commands=['start'])
 def greet(message):
     bot.send_message(message.chat.id, "Привет :)\nЯ еще немножко глупенькая 😅, НО ТЫ НЕ ПУГАЙСЯ!!!!"
-                          "\nЯ учусь и скоро буду очень умной ( круче всех😎😎😎 )"
-                          "\nА пока ты можешь мне помочь, узнав то, что тебя интересует ☺️☺️☺️",
-                 reply_markup=utils.generate_markup(["Популярные вопросы", "Запись на консультацию", "Ближайший МФЦ"]))
+                                      "\nЯ учусь и скоро буду очень умной ( круче всех😎😎😎 )"
+                                      "\nА пока ты можешь мне помочь, узнав то, что тебя интересует ☺️☺️☺️",
+                     reply_markup=utils.generate_mainMenu_markup())
 
 
 @bot.message_handler(commands=['help'])
@@ -24,7 +24,10 @@ def info(message):
 
 @bot.message_handler(content_types=["text"])
 def answer(message):
-    if "ближайший мфц" == message.text.lower():
+    if "главное меню" == message.text.lower():
+        bot.send_message(message.chat.id, "Переключаю на главное меню..", reply_markup=utils.generate_mainMenu_markup())
+
+    elif "ближайший мфц" == message.text.lower():
         keyboard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
         button_geo = telebot.types.KeyboardButton(text="Отправить местоположение", request_location=True)
         keyboard.add(button_geo)
@@ -33,8 +36,8 @@ def answer(message):
                          reply_markup=keyboard)
     elif "популярные вопросы" == message.text.lower():
         bot.send_message(message.chat.id, "Самые популярные категории на данный момент",
-                         reply_markup=utils.generate_markup(["Паспорт", "СНИЛС", "Выдача документов",
-                                                             "Запись на консультацию", "Ближайший МФЦ"], 2, mainMenu=True))
+                         reply_markup=utils.generate_markup(["Паспорт", "СНИЛС", "Запись на консультацию",
+                                                             "Ближайший МФЦ"], 2, mainMenu=True))
 
     elif "запись на консультацию" == message.text.lower():
         script.appointment(message)  # сценарий записи
