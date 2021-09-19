@@ -26,7 +26,7 @@ def getDate(nameMFC: str) -> list:
     for i in temp:
         res.append(i.date)
 
-    return list(set(res))
+    return sorted(list(set(res)))
 
 
 def getFreeTimes(nameMFC: str, date: str) -> list:

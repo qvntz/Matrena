@@ -23,7 +23,7 @@ class RecordControl:
         return questionButton
 
     @staticmethod
-    def __listToButtonsDict(array: list) -> OrderedDict[str, Button]:
+    def __listToButtonsDict(array: list) -> Dict[str, Button]:
         buttonsDict = OrderedDict()
         for item in array:
             newButton = Button(text=item)
