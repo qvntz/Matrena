@@ -6,6 +6,7 @@ if __name__ == '__main__':
     control = AnswererControl()
 
     # Запрос пользователя
+    # todo возващать больше одного овтета - смотри закладки гугл
     dict1 = control.answerForQuery('Получить паспорт')
     for answer in dict1:
         print(answer)
