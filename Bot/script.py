@@ -7,6 +7,9 @@ user_dict = {}
 recorder = RecordControl()
 
 
+# ------------------ Сценарий записи -----------------
+# ------------------ Сценарий записи -----------------
+
 class Appointment:
     def __init__(self, name):
         self.name = name
@@ -22,8 +25,7 @@ def appointment(message):
     # bot.register_next_step_handler(msg, lambda m: process_name_step(m, message.text))
 
 
-def process_name_step(message, txt):
-    # print(txt)
+def process_name_step(message):
     try:
         chat_id = message.chat.id
         name = message.text
@@ -31,7 +33,7 @@ def process_name_step(message, txt):
         user.temp = recorder.getMFCsDict()
         user_dict[chat_id] = user
         msg = bot.send_message(message.chat.id, "Давай выбирать МФЦ.",
-                         reply_markup=utils.generate_mfc_markup(user.temp))
+                               reply_markup=utils.generate_mfc_markup(user.temp))
         bot.register_next_step_handler(msg, process_MFC_step)
     except Exception as e:
         bot.reply_to(message, 'Упс :(')
@@ -47,7 +49,7 @@ def process_MFC_step(message):
         user.temp = user.temp.getChildrens()
         # print(MFCButton.getChildrens())
         msg = bot.send_message(message.chat.id, "Давай выбирать день.",
-                         reply_markup=utils.generate_date_markup(user.temp))
+                               reply_markup=utils.generate_date_markup(user.temp))
         bot.register_next_step_handler(msg, process_day_step)
     except Exception as e:
         bot.reply_to(message, 'Упс :(')
@@ -64,7 +66,7 @@ def process_day_step(message):
                 break
         msg = bot.send_message(message.chat.id, "Отлично, выбираем время.",
                                reply_markup=utils.generate_time_markup(user.temp))
-        #генерирую клаву
+        # генерирую клаву
         bot.register_next_step_handler(msg, process_time_step)
     except:
         bot.reply_to(message, 'Упс :(')
@@ -79,8 +81,7 @@ def process_time_step(message):
         msg = bot.reply_to(message, "Остался последний шаг, запишем номер телефона")
         bot.register_next_step_handler(msg, process_phone_step)
     except:
-        msg = bot.send_message(message.chat.id, "Нажимай кнопку, а не пиши сам.",
-                               reply_markup=utils.generate_markup(["13:30", "19:20"]))
+        msg = bot.send_message(message.chat.id, "Нажимай кнопку, а не пиши сам.")
         # генерирую клаву
         bot.register_next_step_handler(msg, process_time_step)
 
@@ -93,6 +94,7 @@ def process_phone_step(message):
             user.phone = message.text
             bot.reply_to(message, f"Ты записан!\nИмя: {user.name}\nВремя: {user.time.strftime('%H:%M')}\n"
                                   f"День: {user.day}\nТелефон: {user.phone}")
+
             recorder.makeEntry(buttonTime=user.time, dateButton=user.day, MFCButton=user.MFC,
                                name=user.name, surname=user.phone,
                                username=chat_id)

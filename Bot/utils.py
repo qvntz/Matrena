@@ -32,12 +32,15 @@ def check_phone(num: str):  # 88005553535
     return False
 
 
-def generate_markup(buttons):
+def generate_markup(buttons, width=1, mainMenu=None):
     """
     Создаем кастомную клавиатуру для выбора ответа
     :param buttons: List кнопок
     :return: Объект кастомной клавиатуры
     """
-    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=2)
+
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=width)
     markup.add(*buttons)
+    if mainMenu is not None:
+        markup.add("Главное меню")
     return markup

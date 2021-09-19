@@ -1,8 +1,9 @@
 import telebot
 import config
 import script
-from arсhive import finder_mfc
+from arсhive.finder_mfc import finder_mfc
 from Bot.responder import get_answer
+import utils
 
 bot = telebot.TeleBot(config.token)
 step = 0
@@ -10,9 +11,10 @@ step = 0
 
 @bot.message_handler(commands=['start'])
 def greet(message):
-    bot.reply_to(message, "Привет :)\nЯ еще немножко глупенькая 😅, НО ТЫ НЕ ПУГАЙСЯ!!!!"
+    bot.send_message(message.chat.id, "Привет :)\nЯ еще немножко глупенькая 😅, НО ТЫ НЕ ПУГАЙСЯ!!!!"
                           "\nЯ учусь и скоро буду очень умной ( круче всех😎😎😎 )"
-                          "\nА пока ты можешь мне помочь, узнав то, что тебя интересует ☺️☺️☺️")
+                          "\nА пока ты можешь мне помочь, узнав то, что тебя интересует ☺️☺️☺️",
+                 reply_markup=utils.generate_markup(["Популярные вопросы", "Запись на консультацию", "Ближайший МФЦ"]))
 
 
 @bot.message_handler(commands=['help'])
@@ -29,45 +31,33 @@ def answer(message):
         bot.send_message(message.chat.id, "Для этого Вам нужно нажать на кнопку"
                                           " и отправить мне свое местоположение",
                          reply_markup=keyboard)
+    elif "популярные вопросы" == message.text.lower():
+        bot.send_message(message.chat.id, "Самые популярные категории на данный момент",
+                         reply_markup=utils.generate_markup(["Паспорт", "СНИЛС", "Выдача документов",
+                                                             "Запись на консультацию", "Ближайший МФЦ"], 2, mainMenu=True))
 
     elif "запись на консультацию" == message.text.lower():
         script.appointment(message)  # сценарий записи
 
-    # elif "госуслуги" == message.text.lower():
-    #     keyboard = telebot.types.InlineKeyboardMarkup()
-    #     url_button = telebot.types.InlineKeyboardButton(text="Перейти на Госуслуги", url="https://www.gosuslugi.ru/")
-    #     keyboard.add(url_button)
-    #     bot.send_message(message.chat.id, "Я прикрепил снизу все ссылки, чтобы тебе было удобнее.",
-    #                      reply_markup=keyboard)
+    elif "госуслуги" == message.text.lower():
+        keyboard = telebot.types.InlineKeyboardMarkup()
+        url_button = telebot.types.InlineKeyboardButton(text="Перейти на Госуслуги", url="https://www.gosuslugi.ru/")
+        keyboard.add(url_button)
+        bot.send_message(message.chat.id, "Я прикрепил снизу все ссылки, чтобы тебе было удобнее.",
+                         reply_markup=keyboard)
 
     else:
-        get_answer(message, bot)
-
-        # bot.send_message(message.chat.id, message.text, reply_markup=generate_markup(message.text.split()))
+        try:
+            get_answer(message, bot)
+        except Exception as e:
+            print(e)
 
 
 @bot.message_handler(content_types=["location"])
 def location(message):
     if message.location is not None:
         bot.send_message(message.chat.id,
-                         f"Ближайший офис МФЦ - "
-                         f"{finder_mfc(message.location.latitude, message.location.longitude)}")
-
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    if call.data == "online":
-        bot.answer_callback_query(call.id, "Answer is Yes")
-    elif call.data == "offline":
-        bot.answer_callback_query(call.id, "Answer is No")
-    elif call.data == "mfc":
-        pass
-    elif call.data == "doc":
-        pass
-    elif call.data == "procedure":
-        pass
-    elif call.data == "link":
-        pass
+                         f"Ближе всего к Вам: \n{finder_mfc(message.location.latitude, message.location.longitude)}")
 
 
 if __name__ == "__main__":
