@@ -62,5 +62,8 @@ pip install -r requirements.txt
    
     - `token = "token" `
     
-7. Запустить бота (*path* - путь к файлу bot.py)
-``python3 -w path/bot.py``
+7. Перейти в директорию `path - Matrena/Bot` и запустить бота (*path* - путь к файлу bot.py)
+```
+# path
+python3 -w bot.py
+``
