@@ -65,5 +65,5 @@ pip install -r requirements.txt
 7. Перейти в директорию `path - Matrena/Bot` и запустить бота (*path* - путь к файлу bot.py)
 ```
 # path
-python3 -w bot.py
+python -w bot.py
 ```
