@@ -63,4 +63,4 @@ pip install -r requirements.txt
     - `token = "token" `
     
 7. Запустить бота (*path* - путь к файлу bot.py)
-``python path/bot.py``
+``python3 -w path/bot.py``
