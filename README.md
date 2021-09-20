@@ -66,4 +66,4 @@ pip install -r requirements.txt
 ```
 # path
 python3 -w bot.py
-``
+```
