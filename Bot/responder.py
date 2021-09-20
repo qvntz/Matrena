@@ -12,10 +12,10 @@ def get_answer(message, bot):
     control = AnswererControl()
     temp = spellCheck(message.text.lower())
     dict1 = control.answerForQuery(temp)
+    if dict1.get("message"):
+        bot.reply_to(message, dict1.get("message"))
+        dict1.pop("message")
     if dict1:
-        if dict1.get("message"):
-            bot.reply_to(message, dict1.get("message"))
-            dict1.pop("message")
         msg = bot.send_message(message.chat.id, "Вот что я нашла для Вас!\n",
                                reply_markup=generate_markup(dict1.keys(), width=1, mainMenu=True))
         bot.register_next_step_handler(msg, lambda m: choise_method_step(m, bot, dict1))
