@@ -5,7 +5,7 @@ import random
 
 
 def generate_mfc_markup(MFCButtons):
-    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=1)
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=2)
     markup.add("Главное меню")
     for MFC in MFCButtons:
         markup.add(MFC)
